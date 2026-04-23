@@ -14,17 +14,15 @@ const createNew = async (req, res, next) => {
   })
 
   try {
-    console.log(req.body)
+    // console.log(req.body)
     //set abortEarly: false in case of a lot of errors validation , return all the errors instead of one
     await correctCondition.validateAsync(req.body, { abortEarly: false })
-    console.log(correctCondition)
-
-    // next()
-    res.status(StatusCodes.CREATED).json({ message: 'POST from validations: API create new board' })
+    //Validate data succesfull we step from request to next Controller
+    next()
 
   } catch (error) {
     res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
-      errors: new Error(error).message
+      errors: error.message
     })
   }
 }
